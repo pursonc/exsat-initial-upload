@@ -28,7 +28,7 @@ program
     const end = parseInt(endId, 10);
 
     while (start <= end) {
-      const utxos = await getUTXOs(start, start + CHUNK_SIZE-1);
+      const utxos = await getUTXOs(start, start + CHUNK_SIZE-1, CHUNK_SIZE);
       if (utxos.length === 0) break;
 
       await uploadUTXOs(utxos);

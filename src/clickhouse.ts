@@ -10,13 +10,13 @@ const clickhouse = new ClickHouse({
   database: config.CLICKHOUSE_DATABASE,
 });
 
-export const getUTXOs = async (startId: number, endId: number) => {
+export const getUTXOs = async (startId: number, endId: number, chunk: number) => {
   const query = `
     SELECT id, height, address, txid, vout, value, scriptPubKey
     FROM deduped_utxos
     WHERE id BETWEEN ${startId} AND ${endId}
     ORDER BY id
-    LIMIT 2000
+    LIMIT ${chunk}
   `;
   return await clickhouse.query(query).toPromise();
 };
