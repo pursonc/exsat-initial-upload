@@ -66,7 +66,7 @@ program
 
       await uploadBlocks(blocks);
       csvStartRow += CHUNK_SIZE;
-      // await saveProgress(csvStartRow, TYPE_BLOCK);
+      await saveProgress(csvStartRow, TYPE_BLOCK);
 
       logger.info(
         `Uploaded blocks from row ${csvStartRow - CHUNK_SIZE} to ${
