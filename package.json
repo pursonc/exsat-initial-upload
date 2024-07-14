@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "blocks": "ts-node src/index.ts blocks ./block_headers.csv 0 5000",
-    "utxo": "ts-node src/index.ts utxo 0 5000",
+ "blocks": "ts-node src/index.ts blocks ./block_headers.csv 0 840000",
+    "utxo": "ts-node src/index.ts utxo 0 840000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
