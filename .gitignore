@@ -98,3 +98,4 @@ dist/
 *header-progress.json
 *txid_log.json
 app.log
+.csv
