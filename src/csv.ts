@@ -1,5 +1,5 @@
 import fs from "fs";
-import csvParser from "csv-parser";
+import readline from "readline";
 
 interface Block {
   hash: string;
@@ -23,32 +23,41 @@ export const getCSVData = async (
   const results: Block[] = [];
   let rowCount = 0;
 
+  const fileStream = fs.createReadStream(filePath);
+  const rl = readline.createInterface({
+    input: fileStream,
+    crlfDelay: Infinity,
+  });
+
   return new Promise((resolve, reject) => {
-    fs.createReadStream(filePath)
-      .pipe(csvParser({ separator: ";" }))
-      .on("data", (data) => {
-        if (rowCount >= startRow && rowCount <= endRow) {
+    rl.on("line", (line) => {
+      if (rowCount >= startRow && rowCount <= endRow) {
+        const columns = line.split(";");
+        if (columns.length === 11) {
           results.push({
-            hash: data.hash,
-            height: parseInt(data.height, 10),
-            version: parseInt(data.version, 10),
-            previousblockhash: data.previousblockhash,
-            nextblockhash: data.nextblockhash,
-            merkleroot: data.merkleroot,
-            time: parseInt(data.time, 10),
-            bits: parseInt(data.bits, 10),
-            nonce: parseInt(data.nonce, 10),
-            difficulty: parseFloat(data.difficulty),
-            chainwork: data.chainwork,
+            hash: `${columns[0]}`,
+            height: parseInt(columns[1], 10),
+            version: parseInt(columns[2], 10),
+            previousblockhash: `${columns[3]}`,
+            nextblockhash: columns[4],
+            merkleroot: `${columns[5]}`,
+            time: parseInt(columns[6], 10),
+            bits: parseInt(columns[7], 10),
+            nonce: parseInt(columns[8], 10),
+            difficulty: parseFloat(columns[9]),
+            chainwork: `${columns[10]}`,
           });
         }
-        rowCount++;
-      })
-      .on("end", () => {
-        resolve(results);
-      })
-      .on("error", (error) => {
-        reject(error);
-      });
+      }
+      rowCount++;
+    });
+
+    rl.on("close", () => {
+      resolve(results);
+    });
+
+    rl.on("error", (error) => {
+      reject(error);
+    });
   });
 };

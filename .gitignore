@@ -95,3 +95,6 @@ clickhouse-data/
 
 # Output directories
 dist/
+*header-progress.json
+*txid_log.json
+app.log

@@ -10,6 +10,7 @@ const program = new Command();
 const TYPE_UTXO="utxo";
 const TYPE_BLOCK="block_header";
 const WAIT = 2000;
+const CHUNK_SIZE=2000;
 
 
 program
@@ -27,14 +28,16 @@ program
     const end = parseInt(endId, 10);
 
     while (start <= end) {
-      const utxos = await getUTXOs(start, start + 1999);
+      const utxos = await getUTXOs(start, start + CHUNK_SIZE-1);
       if (utxos.length === 0) break;
 
       await uploadUTXOs(utxos);
-      start += 2000;
+      start += CHUNK_SIZE;
       await saveProgress(start, TYPE_UTXO);
 
-      logger.info(`Uploaded UTXOs from ID ${start - 2000} to ${start - 1}`);
+      logger.info(
+        `Uploaded UTXOs from ID ${start - CHUNK_SIZE} to ${start - 1}`
+      );
       await new Promise((resolve) => setTimeout(resolve, WAIT)); 
     }
 
@@ -51,15 +54,24 @@ program
     let csvStartRow = await getProgress(TYPE_BLOCK);
 
     while (true) {
-      const blocks = await getCSVData(csvPath, csvStartRow, csvStartRow + 1999);
-      if (blocks.length === 0) break;
+      const blocks = await getCSVData(
+        csvPath,
+        csvStartRow,
+        csvStartRow + CHUNK_SIZE
+      -1);
+
+       if (blocks.length === 0) break;
+
+      //  console.log(blocks)
 
       await uploadBlocks(blocks);
-      csvStartRow += 2000;
-      await saveProgress(csvStartRow, TYPE_BLOCK);
+      csvStartRow += CHUNK_SIZE;
+      // await saveProgress(csvStartRow, TYPE_BLOCK);
 
       logger.info(
-        `Uploaded blocks from row ${csvStartRow - 2000} to ${csvStartRow - 1}`
+        `Uploaded blocks from row ${csvStartRow - CHUNK_SIZE} to ${
+          csvStartRow - 1
+        }`
       );
       await new Promise((resolve) => setTimeout(resolve, WAIT)); 
     }
