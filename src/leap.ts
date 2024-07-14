@@ -28,6 +28,9 @@ const session = new Session(
 });
 
 export const uploadUTXOs = async (utxos: any[]) => {
+  let actions: any = []
+  let last_id = 0;
+  
   for (const utxo of utxos) {
     const actions = [
       {
@@ -45,22 +48,26 @@ export const uploadUTXOs = async (utxos: any[]) => {
         },
       },
     ];
-
+    last_id = utxo.id;
+  }
     try {
       const result = await session.transact(
         { actions }
       );
       const txid = result.resolved?.transaction.id || "-";
       await logTxId(txid.toString(), TYPE_UTXO);
+       console.error(`end_id:${last_id}   txid ${txid.toString()}`);
     } catch (e) {
-      console.error(`Error uploading UTXO id: ${utxo.id}`, e);
+      console.error(`Error uploading UTXO id: ${last_id}`, e);
     }
-  }
+  
 };
 
 export const uploadBlocks = async (blocks: any[]) => {
+  let actions:any = []
+  let height = 0
   for (const block of blocks) {
-    const actions = [
+     actions.push([
       {
         account: config.EXSAT_CONTRACT_NAME!,
         name: "addblock",
@@ -79,13 +86,16 @@ export const uploadBlocks = async (blocks: any[]) => {
           nonce: block.nonce,
         },
       },
-    ];
+    ]);
+    height = block.height;
+  }
 
     try {
       const result = await session.transact({ actions });
       const txid = result.resolved?.transaction.id || "-";
       await logTxId(txid.toString(), TYPE_BLOCK);
+      console.error(`end_height:${height}   txid ${txid.toString()}`);
     } catch (e) {
-      console.error(`Error uploading block height: ${block.height}`, e);
+      console.error(`Error uploading block end_height: ${height}`, e);
     }
-  }};
+  };

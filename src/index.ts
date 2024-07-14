@@ -9,6 +9,8 @@ const program = new Command();
 
 const TYPE_UTXO="utxo";
 const TYPE_BLOCK="block_header";
+const WAIT = 2000;
+
 
 program
   .name("utxo-uploader")
@@ -33,6 +35,7 @@ program
       await saveProgress(start, TYPE_UTXO);
 
       logger.info(`Uploaded UTXOs from ID ${start - 2000} to ${start - 1}`);
+      await new Promise((resolve) => setTimeout(resolve, WAIT)); 
     }
 
     logger.info("UTXO upload complete.");
@@ -58,6 +61,7 @@ program
       logger.info(
         `Uploaded blocks from row ${csvStartRow - 2000} to ${csvStartRow - 1}`
       );
+      await new Promise((resolve) => setTimeout(resolve, WAIT)); 
     }
 
     logger.info("Block upload complete.");
