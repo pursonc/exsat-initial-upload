@@ -15,12 +15,12 @@ const CHUNK_SIZE=2000;
 
 program
   .name("utxo-uploader")
-  .description("CLI to upload UTXOs and Blocks to EOS blockchain")
+  .description("CLI to upload UTXOs and Blocks to spring blockchain")
   .version("0.1.0");
 
 program
   .command("utxo")
-  .description("Upload UTXOs to EOS")
+  .description("Upload UTXOs to spring")
   .argument("<startId>", "Start ID")
   .argument("<endId>", "End ID")
   .action(async (startId: string, endId: string) => {
@@ -46,7 +46,7 @@ program
 
 program
   .command("blocks")
-  .description("Upload Blocks to EOS")
+  .description("Upload Blocks to spring")
   .argument("<csvPath>", "CSV file path")
   .argument("<s>", "Start ID")
   .argument("<e>", "End ID")
