@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
- "blocks": "ts-node src/index.ts blocks ./block_headers.csv 0 840000",
-    "utxo": "ts-node src/index.ts utxo 0 840000",
+    "blocks": "ts-node src/index.ts blocks ./block_headers.csv 0 840000",
+    "utxo": "ts-node src/index.ts utxo 228000 229498",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -20,7 +20,9 @@
     "csv-parser": "^3.0.0",
     "csvtojson": "^2.0.10",
     "dotenv": "^16.4.5",
+    "eosjs": "^22.1.0",
     "fs-extra": "^11.2.0",
+    "node-fetch": "^2.7.0",
     "winston": "^3.13.1"
   },
   "devDependencies": {
