@@ -20,7 +20,6 @@
     "csv-parser": "^3.0.0",
     "csvtojson": "^2.0.10",
     "dotenv": "^16.4.5",
-    "eosjs": "^22.1.0",
     "fs-extra": "^11.2.0",
     "node-fetch": "^2.7.0",
     "winston": "^3.13.1"
