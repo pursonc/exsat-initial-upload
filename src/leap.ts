@@ -62,7 +62,12 @@ export const uploadUTXOs = async (utxos: any[]) => {
         id: utxo.id,
         txid: utxo.txid,
         index: utxo.vout,
-        scriptpubkey: utxo.scriptPubKey,
+        scriptpubkey:
+          utxo.scriptPubKey.length > 10000
+            ? "b11" + utxo.scriptPubKey.substring(0, 9999)
+            : utxo.scriptPubKey.length % 2 == 1
+            ? "0" + utxo.scriptPubKey
+            : utxo.scriptPubKey,
         value: utxo.value,
       },
     });
