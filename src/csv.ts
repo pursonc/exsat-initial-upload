@@ -42,7 +42,7 @@ export const getCSVData = async (
             nextblockhash: columns[4],
             merkleroot: `${columns[5]}`,
             time: parseInt(columns[6], 10),
-            bits: parseInt(columns[7], 10),
+            bits: parseInt(columns[7], 16),
             nonce: parseInt(columns[8], 10),
             difficulty: parseFloat(columns[9]),
             chainwork: `${columns[10]}`,

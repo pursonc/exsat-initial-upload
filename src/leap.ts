@@ -109,12 +109,6 @@ export const uploadUTXOs = async (utxos: any[]) => {
   }
 };
 
-function hexToUint32(hexString: string) {
-  hexString = hexString.replace(/^0x/, "");
-  const number = parseInt(hexString, 16);
-  return number >>> 0;
-}
-
 export const uploadBlocks = async (blocks: any[]) => {
   let actions: any = [];
   let height = 0;
@@ -134,7 +128,7 @@ export const uploadBlocks = async (blocks: any[]) => {
           "0000000000000000000000000000000000000000000000000000000000000000",
         merkle: block.merkleroot,
         timestamp: block.time,
-        bits: hexToUint32(block.bits),
+        bits: block.bits,
         nonce: block.nonce,
       },
     });
